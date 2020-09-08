@@ -8,6 +8,7 @@ option = Options()
 option.add_argument("--disable-infobars")
 option.add_argument("--disable-extensions")
 
+# mengatasi jika ada notifikasi allow or block
 # Pass the argument 1 to allow and 2 to block
 option.add_experimental_option("prefs", {
     "profile.default_content_setting_values.notifications": 2
