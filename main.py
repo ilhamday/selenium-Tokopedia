@@ -1,47 +1,57 @@
 import os
 from selenium import webdriver
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import requests, time
 
-option = Options()
+options = Options()
 
-option.add_argument("--disable-infobars")
-option.add_argument("--disable-extensions")
+options.add_argument("--disable-infobars")
+options.add_argument("--disable-extensions")
 
-# mengatasi jika ada notifikasi allow or blockyo
+# handle pop up notification in browser
 # Pass the argument 1 to allow and 2 to block
-option.add_experimental_option("prefs", {
+options.add_experimental_option("prefs", {
     "profile.default_content_setting_values.notifications": 2
 })
 
-driver = webdriver.Chrome(options=option, executable_path=os.path.abspath('chromedriver'))
+driver = webdriver.Chrome(options=options, executable_path=os.path.abspath('chromedriver'))
 driver.get('https://www.tokopedia.com/')
 
-# pindah ke halaman action figure | bisa dicari di console $('css selectornya copy disini')
-driver.find_element_by_css_selector('.css-15j6m2y > div:nth-child(5) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1)').click()
+def login():
+    # jangan lupa delete kalau mau push
+    email = 'donizack69@gmail.com'
+    password = 'donizack111'
 
-page = driver.page_source
-# urls = driver.current_url
+    # email = input('email: ')
+    # password = input('password: ')
 
-driver.quit()
+    btn_login = driver.find_element_by_xpath('//button[@type="button" and @data-testid="btnHeaderLogin"]')
+    btn_login.click()
 
-# urls = 'https://www.tokopedia.com/p/mainan-hobi/figure/action-figure'
+    time.sleep(5)
 
-# req = requests.get(urls, headers={'User-Agent': 'Mozilla/5.0'})
+    # input email to form
+    driver.find_element_by_xpath('//input[@id="email-phone"]').send_keys(email)
 
-# print(req.status_code)
+    # klik next button
+    driver.find_element_by_xpath('//button[@id="email-phone-submit"]').click()
 
-soup = BeautifulSoup(page, 'html.parser')
+    time.sleep(5)
+    # input password
+    driver.find_element_by_xpath('//input[@id="password-input"]').send_keys(password)
 
-container = soup.find_all('div', attrs={'class': 'css-bk6tzz e1nlzfl3'})
+    label = driver.find_element_by_xpath('//label[@class="css-cdg5bv-unf-checkbox e4ba57s2"]')
+    checkbox = driver.find_element_by_xpath('//span[@class="css-12a5v84-unf-checkbox__area e4ba57s1"]')
 
-for count, action in enumerate(container, 1):
-    name = action.find('span', class_='css-1bjwylw').text
-    price = action.find('span', class_='css-o5uqvq').text
-    print('-------')
-    print(count)
-    print(f'nama: {name}')
-    print(f'harga: {price}')
-    time.sleep(3)
+    # driver.find_element_by_xpath('//input[@type="checkbox" and @class="css-dwbw3u-unf-checkbox__input e4ba57s4"]').click()
+
+    ActionChains(driver).move_to_element(label).click(checkbox).perform()
+    time.sleep(2)
+
+    driver.quit()
+
+login()
+
