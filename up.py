@@ -63,4 +63,19 @@ def login():
 
     # driver.quit()
 
-login()
+def search(item):
+    search_bar = driver.find_element_by_xpath('//input[@aria-label="Bidang pencarian"]')
+    search_bar.clear()
+    time.sleep(5)
+    search_bar.send_keys(item)
+
+    button_search = driver.find_element_by_xpath('//button[@aria-label="Tombol pencarian"]')
+    button_search.click()
+
+    url = driver.current_url
+
+search("Lampu disco")
+
+# halaman yang ada datanya cuma sampe page 101,
+# page 102 udah ada pesan errornya
+# jadi walaupun data ada banyak, tapi ngga bisa lebih dari 6000 ( maks di halaman 101)
