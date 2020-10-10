@@ -74,7 +74,29 @@ def search(item):
 
     url = driver.current_url
 
+def get_data():
+
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(5)
+    # diferent class area between result from click(something) in the home page and search
+    # class area -> css-jza1fo
+    # class container -> css-1g20a2m
+    big_box = driver.find_element_by_class_name('css-jza1fo')
+
+    little_box = big_box.find_elements_by_class_name('css-1g20a2m')
+    c = 0
+    for lb in little_box:
+        item_title = lb.find_element_by_class_name('css-18c4yhp')
+
+        c += 1
+        print(c)
+        print(item_title.text)
+
 search("Lampu disco")
+get_data()
+
+
+
 
 # halaman yang ada datanya cuma sampe page 101,
 # page 102 udah ada pesan errornya
