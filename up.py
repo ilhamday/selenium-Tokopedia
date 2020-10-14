@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests, time
 from selenium import webdriver
 from selenium.webdriver import ActionChains
-
+import csv
 import user_pass
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -20,7 +20,6 @@ driver.get('https://www.tokopedia.com/')
 wait = WebDriverWait(driver, 10)
 
 def login():
-    # jangan lupa delete kalau mau push
     email = user_pass.email
     password = user_pass.password
 
@@ -75,6 +74,7 @@ def search(item):
     url = driver.current_url
 
 def get_data():
+    item_title_list = []
 
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(5)
@@ -86,13 +86,26 @@ def get_data():
     little_box = big_box.find_elements_by_class_name('css-1g20a2m')
     c = 0
     for lb in little_box:
-        item_title = lb.find_element_by_class_name('css-18c4yhp')
+        item_title = lb.find_element_by_class_name('css-18c4yhp').text
 
         c += 1
         print(c)
-        print(item_title.text)
+        print(item_title)
+
+        # item_title_list.append(item_title)
+        with open('result_toped.csv', 'a', newline='') as thefile:
+            writer = csv.writer(thefile)
+            data = [c, item_title]
+            writer.writerow(data) # writerow can only take one argument
+
+
+def export_csv():
+    with open('result_toped.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['Index','Product Name'])
 
 search("Lampu disco")
+export_csv()
 get_data()
 
 
