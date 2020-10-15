@@ -92,17 +92,37 @@ def get_data():
         print(c)
         print(item_title)
 
+        # data = [c, item_title]
+        dict_data = {
+            'Index': c,
+            'Product Name': item_title
+        }
+
         # item_title_list.append(item_title)
         with open('result_toped.csv', 'a', newline='') as thefile:
-            writer = csv.writer(thefile)
-            data = [c, item_title]
-            writer.writerow(data) # writerow can only take one argument
+            # writer = csv.riter(thefile)
+
+            fieldnames = ['Index', 'Product Name']
+            writer = csv.DictWriter(thefile, fieldnames=fieldnames)
+
+            writer.writerow(dict_data) # writerow can only take one argument
 
 
 def export_csv():
+
     with open('result_toped.csv', 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(['Index','Product Name'])
+        # using csv writer
+        # writer = csv.writer(csvfile)
+        # writer.writerow(['Index','Product Name'])
+
+        # using csv Dictwriter
+        fieldnames = ['Index', 'Product Name']
+        csv_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        csv_writer.writeheader()
+
+def export_csv_pandas():
+    pass
 
 search("Lampu disco")
 export_csv()
