@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver import ActionChains
 import csv
 import user_pass
+import pandas as pd
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -75,6 +76,7 @@ def search(item):
 
 def get_data():
     item_title_list = []
+    item_title_index = []
 
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(5)
@@ -92,21 +94,30 @@ def get_data():
         print(c)
         print(item_title)
 
-        # data = [c, item_title]
-        dict_data = {
-            'Index': c,
-            'Product Name': item_title
-        }
+        # adding data to csv file
+        # dict_data = {
+        #     'Index': c,
+        #     'Product Name': item_title
+        # }
+        #
+        # with open('result_toped.csv', 'a', newline='') as thefile:
+        #     # writer = csv.riter(thefile)
+        #
+        #     fieldnames = ['Index', 'Product Name']
+        #     writer = csv.DictWriter(thefile, fieldnames=fieldnames)
+        #
+        #     writer.writerow(dict_data) # writerow can only take one argument
 
-        # item_title_list.append(item_title)
-        with open('result_toped.csv', 'a', newline='') as thefile:
-            # writer = csv.riter(thefile)
+        # for pandas
+        item_title_list.append(item_title)
+        item_title_index.append(c)
 
-            fieldnames = ['Index', 'Product Name']
-            writer = csv.DictWriter(thefile, fieldnames=fieldnames)
+    data = {
+        'title': item_title_list,
+        'index': item_title_index
+    }
 
-            writer.writerow(dict_data) # writerow can only take one argument
-
+    return data
 
 def export_csv():
 
@@ -122,12 +133,14 @@ def export_csv():
         csv_writer.writeheader()
 
 def export_csv_pandas():
-    pass
+    data = get_data()
+
+    df = pd.DataFrame(data=data)
+
+    df.to_csv('data_pandas.csv', index=False)
 
 search("Lampu disco")
-export_csv()
-get_data()
-
+export_csv_pandas()
 
 
 
