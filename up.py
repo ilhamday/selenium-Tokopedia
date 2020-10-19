@@ -139,8 +139,17 @@ def export_csv_pandas():
 
     df.to_csv('data_pandas.csv', index=False)
 
-search("Lampu disco")
-export_csv_pandas()
+def read_parameter():
+    data = pd.read_excel('parameter.xlsx')
+    # df = pd.DataFrame(data, columns=['Barang'])
+    df = data['Barang']
+
+    for parameter in df:
+        search(parameter)
+
+
+# search("Lampu disco")
+read_parameter()
 
 
 
