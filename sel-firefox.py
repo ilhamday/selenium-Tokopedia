@@ -1,11 +1,13 @@
 import os
 from bs4 import BeautifulSoup
 import requests, time
-from selenium import webdriver
-from selenium.webdriver import ActionChains
 import csv
 import user_pass
 import pandas as pd
+from xlrd import open_workbook
+
+from selenium import webdriver
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -75,6 +77,7 @@ def search(item):
     url = driver.current_url
 
 def get_data():
+
     item_title_list = []
     item_title_index = []
 
@@ -122,11 +125,11 @@ def get_data():
 def export_csv():
 
     with open('result_toped.csv', 'w', newline='') as csvfile:
-        # using csv writer
+        # using csv writer ---
         # writer = csv.writer(csvfile)
         # writer.writerow(['Index','Product Name'])
 
-        # using csv Dictwriter
+        # using csv Dictwriter ---
         fieldnames = ['Index', 'Product Name']
         csv_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
@@ -147,8 +150,6 @@ def read_parameter():
     for parameter in df:
         search(parameter)
 
-
-# search("Lampu disco")
 read_parameter()
 
 
