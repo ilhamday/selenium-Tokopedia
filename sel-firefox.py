@@ -1,10 +1,10 @@
 import os
-from bs4 import BeautifulSoup
 import requests, time
 import csv
-
 import pandas as pd
+
 from xlrd import open_workbook
+from bs4 import BeautifulSoup
 
 from selenium import webdriver
 from selenium.webdriver import ActionChains
@@ -95,7 +95,24 @@ def read_parameter():
         search(parameter)
 
 read_parameter()
+# mau nya biar ngga manggil di tiap-tiap fungsi. Japa parameter yang diperulangan read_parameter(), dimasukin kelist gitu ya,,, kan nanti bisa jugak.
+# kalau mau cepet, aslinya tinggal manggil get_data() didalam search(item)..
 
+# Kurang lebih kayak gini:
+# def run():
+#
+#     while True:
+#         options = int(input('Number: '))
+#
+#         if options == 1:
+#             pass
+#
+#         if options == 9:
+#             break
+#
+#
+# if __name__ == '__main__':
+#     run()
 
 
 # halaman yang ada datanya cuma sampe page 101,
