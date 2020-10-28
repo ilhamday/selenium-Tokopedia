@@ -18,9 +18,11 @@ profile.set_preference('dom.webnotifications.enabled', False)
 profile.set_preference('dom.push.enabled', False)
 
 driver = webdriver.Firefox(executable_path=os.path.abspath('geckodriver'), firefox_profile=profile)
-driver.get('https://www.tokopedia.com/')
 
 wait = WebDriverWait(driver, 10)
+
+def open_url():
+    driver.get('https://www.tokopedia.com/')
 
 def search(item):
     search_bar = driver.find_element_by_xpath('//input[@aria-label="Bidang pencarian"]')
@@ -91,28 +93,44 @@ def read_parameter():
     # df = pd.DataFrame(data, columns=['Barang'])
     df = data['Barang']
 
+    list_param = []
     for parameter in df:
-        search(parameter)
+        print(parameter)
+        list_param.append(parameter)
 
-read_parameter()
+    return list_param
+
+
 # mau nya biar ngga manggil di tiap-tiap fungsi. Japa parameter yang diperulangan read_parameter(), dimasukin kelist gitu ya,,, kan nanti bisa jugak.
 # kalau mau cepet, aslinya tinggal manggil get_data() didalam search(item)..
+# data juga perlu di append ke excel
 
 # Kurang lebih kayak gini:
-# def run():
-#
-#     while True:
-#         options = int(input('Number: '))
-#
-#         if options == 1:
-#             pass
-#
+def run():
+
+    while True:
+        options = int(input('Number: '))
+
+        # open toko pedia
+        if options == 1:
+            open_url()
+
+        # read parameter
+        if options == 2:
+            list_param = read_parameter()
+
+        # search per parameter
+        if options == 3:
+            for lp in list_param:
+                search(lp)
+
+
 #         if options == 9:
 #             break
 #
 #
-# if __name__ == '__main__':
-#     run()
+if __name__ == '__main__':
+    run()
 
 
 # halaman yang ada datanya cuma sampe page 101,
