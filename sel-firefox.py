@@ -63,7 +63,7 @@ def get_data():
         # }
         #
         # with open('result_toped.csv', 'a', newline='') as thefile:
-        #     # writer = csv.riter(thefile)
+        #     # writer = csv.writer(thefile)
         #
         #     fieldnames = ['Index', 'Product Name']
         #     writer = csv.DictWriter(thefile, fieldnames=fieldnames)
@@ -81,8 +81,7 @@ def get_data():
 
     return data
 
-def export_csv_pandas():
-    data = get_data()
+def export_csv_pandas(data):
 
     df = pd.DataFrame(data=data)
 
@@ -111,7 +110,7 @@ def run():
     while True:
         options = int(input('Number: '))
 
-        # open toko pedia
+        # open tokopedia
         if options == 1:
             open_url()
 
@@ -119,11 +118,15 @@ def run():
         if options == 2:
             list_param = read_parameter()
 
-        # search per parameter
+        # search per parameter and get the data.
         if options == 3:
             for lp in list_param:
                 search(lp)
+                dict_data = get_data()
 
+        # create csv |   PROBLEMNYA, apakah bisa append? atau hasilnya akan kereplace?
+        if options == 4:
+            export_csv_pandas(dict_data)
 
 #         if options == 9:
 #             break
